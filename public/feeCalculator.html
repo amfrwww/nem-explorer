@@ -33,10 +33,10 @@
 	<label id="multiplier">Number Of User
 		<input class="box-input" type="text" ng-model="multiplier" ng-keyup="handle()" style="width:100%; margin-left:4px; margin-right:4px; padding-left:4px;"/>
 	</label>
-	Duration
+	Time Period
 		<select ng-model="selectedDuration" ng-options="du.value as du.name for du in durationType track by du.value" ng-change="getDurationType()">
 	  </select>
-	  <label id="multiplier">Number Of {{duType}}
+	  <label id="multiplier">Number Of <span ng-bind="duType"></span>
 		<input class="box-input" type="text" ng-model="dur" ng-keyup="handle()" style="width:100%; margin-left:4px; margin-right:4px; padding-left:4px;"/>
 	</label>
 	<div class="divider2"></div>
