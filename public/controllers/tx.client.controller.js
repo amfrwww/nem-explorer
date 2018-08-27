@@ -206,15 +206,18 @@ function graphController($scope, $location, TXService) {
   };
 }
 
-function FeeCalculatorController($scope){
+function FeeCalculatorController($scope, FooterService){
 	$("#mosaic").hide();
 	$scope.mosaicBox = false;
 	$scope.amount = "0";
 	$scope.mosaicAmount = "0";
 	$scope.mosaicSupply = "0";
 	$scope.mosaicDiv = "0";
-	$scope.fee = "0.050000";
+	$scope.fee = "0.050000" * $scope.multiplier;
 	$scope.message = "";
+	$scope.multiplier = '1';
+	$scope.dur = '1';
+	$scope.selectedDuration = '1';
 
 	const baseTransactionFee = 3;
 	const currentFeeFactor = 0.05;
@@ -230,6 +233,24 @@ function FeeCalculatorController($scope){
 		'value': '976'
 	}];
 
+	$scope.durationType = [{
+		'name': 'Day',
+		'value': '1'
+	}, {
+		'name': 'Month',
+		'value': '30'
+	}, {
+		'name': 'Year',
+		'value': '365'
+	}];
+
+	FooterService.market(function(r_market){
+		if(!r_market || !r_market.btc || !r_market.usd || !r_market.cap)
+			return;
+		$scope.price = r_market.usd;
+		$scope.feeUSD = '$'+($scope.price * $scope.fee * $scope.multiplier).toFixed(2);
+	});
+
 	$scope.hideAmount = function() {
 		var checkBox = document.getElementById("checkbox");
 
@@ -241,9 +262,11 @@ function FeeCalculatorController($scope){
     		$("#mosaic").show();
     		$scope.amount = "0";
     		if($scope.message.length == 0) {
-    			$scope.fee = "0.000000";
+    			$scope.fee = "0.000000" * $scope.multiplier * ($scope.dur * $scope.selectedDuration);
+    			$scope.feeUSD = '$'+($scope.price * $scope.fee).toFixed(2);
     		}else {
-    			$scope.fee = $scope.feeMessage;
+    			$scope.fee = $scope.feeMessage * $scope.multiplier;
+    			$scope.feeUSD = '$'+($scope.price * $scope.fee).toFixed(2);
     		}
   		} else {
     		$("#amount").show();
@@ -251,10 +274,12 @@ function FeeCalculatorController($scope){
     		$("#mosaic").hide();
     		$scope.mosaicAmount = "0";
     		if($scope.message.length == 0) {
-    			$scope.fee = "0.050000";
+    			$scope.fee = ("0.050000" * $scope.multiplier * ($scope.dur * $scope.selectedDuration)).toFixed(6);
+    			$scope.feeUSD = '$'+($scope.price * $scope.fee).toFixed(2);
     		}
     		else {
-    			$scope.fee = $scope.feeMessage;
+    			$scope.fee = ($scope.feeMessage * $scope.multiplier * ($scope.dur * $scope.selectedDuration)).toFixed(6);
+    			$scope.feeUSD = '$'+($scope.price * $scope.fee).toFixed(2);
     		}
 			$scope.mosaicSupply = "0";
 			$scope.mosaicDiv = "0";
@@ -265,16 +290,33 @@ function FeeCalculatorController($scope){
 		$scope.handle();
 	};
 
+	$scope.getDurationType = function(){
+		$scope.handle();
+		if ($scope.selectedDuration == 1) {
+			$scope.duType = 'Days';
+		}
+		else if ($scope.selectedDuration == 30) {
+			$scope.duType = 'Months';
+		}
+		else if ($scope.selectedDuration == 365) {
+			$scope.duType = 'Years';
+		}
+	};
+
 	$scope.handle = function(){
 		let mosaicAmountTxt = $scope.mosaicAmount.replace(/\s+/, "").replace(/,/g, "");
 		let mosaicSupplyTxt = $scope.mosaicSupply.replace(/\s+/, "").replace(/,/g, "");
 		let mosaicDivTxt = $scope.mosaicDiv.replace(/\s+/, "").replace(/,/g, "");
 		let amountTxt = $scope.amount.replace(/\s+/, "").replace(/,/g, "");
 		let messageTxt = $scope.message.replace(/\s+/, "").replace(/,/g, "");
+		let multiplierTxt = $scope.multiplier.replace(/\s+/, "").replace(/,/g, "");
+		let durTxt = $scope.dur.replace(/\s+/, "").replace(/,/g, "");
 		let amount = new Number(amountTxt);
 		let mosaicAmount = new Number(mosaicAmountTxt);
 		let mosaicSupply = new Number(mosaicSupplyTxt);
 		let mosaicDiv = new Number(mosaicDivTxt);
+		let multiplier = new Number(multiplierTxt);
+		let dur = new Number(durTxt);
 		let message = new String(messageTxt);
 		var checkBox = document.getElementById("checkbox");
 
@@ -302,7 +344,8 @@ function FeeCalculatorController($scope){
 			$scope.feeMessage = feeMessage.toFixed(6);
 			let feeMosaic = $scope.calculateMosaics(mosaicAmount, mosaicSupply, mosaicDiv);
 			$scope.total = (feeMessage + feeMosaic).toFixed(6);
-			$scope.fee = $scope.total;
+			$scope.fee = ($scope.total * multiplier * (dur * $scope.selectedDuration)).toFixed(6);
+			$scope.feeUSD = '$'+($scope.price * $scope.fee).toFixed(2);
 			return;
 		}
 		else {
@@ -310,7 +353,8 @@ function FeeCalculatorController($scope){
 			$scope.feeMessage = feeMessage.toFixed(6);
 			let feeAmount = $scope.calculateMinimum(amount);
 			$scope.total = (feeMessage + feeAmount).toFixed(6);
-			$scope.fee = $scope.total;
+			$scope.fee = ($scope.total * multiplier * (dur * $scope.selectedDuration)).toFixed(6);
+			$scope.feeUSD = '$'+($scope.price * $scope.fee).toFixed(2);
 			return;
 		}
 	};
@@ -376,7 +420,6 @@ $scope.calculateXemEquivalent = function(quantity, supply, divisibility) {
 	$scope.handle();
 
 }
-
 
 function SearchTXController($scope, $location, TXService){
 	var absUrl = $location.absUrl();
