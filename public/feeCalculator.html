@@ -29,10 +29,27 @@
 		<input class="box-input" type="text" ng-model="mosaicDiv" ng-keyup="handle()" style="width:100%; margin-left:4px; margin-right:4px; padding-left:4px;"/>
 		</label>
 	</div>
+	<div class="divider2"></div>
+	<label id="multiplier">Number Of User
+		<input class="box-input" type="text" ng-model="multiplier" ng-keyup="handle()" style="width:100%; margin-left:4px; margin-right:4px; padding-left:4px;"/>
+	</label>
+	Duration
+		<select ng-model="selectedDuration" ng-options="du.value as du.name for du in durationType track by du.value" ng-change="getDurationType()">
+	  </select>
+	  <label id="multiplier">Number Of {{duType}}
+		<input class="box-input" type="text" ng-model="dur" ng-keyup="handle()" style="width:100%; margin-left:4px; margin-right:4px; padding-left:4px;"/>
+	</label>
+	<div class="divider2"></div>
 	<div style="margin-top:20px;">
 		<label id="fee">Fee</label>
 		<div class="input-container">
 		<input class="box-input" type="text" ng-model="fee" style="width:100%; margin-left:4px; margin-right:4px; padding-left:4px; background-color: #eaedf2;"/>
+		</div>
+	</div>
+	<div style="margin-top:20px;">
+		<label id="feeUSD">Fee In USD</label>
+		<div class="input-containerUSD">
+		<input class="box-input" type="text" ng-model="feeUSD" style="width:100%; margin-left:4px; margin-right:4px; padding-left:4px; background-color: #eaedf2;"/>
 		</div>
 	</div>
 </div>
