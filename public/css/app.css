@@ -174,7 +174,7 @@
 
 .nav-bar-center {
     position: absolute;
-    margin-top: 13px;
+    margin-top: 13px !important;
   left: 50%;
   /* bring your own prefixes */
   transform: translate(-50%, -50%);
