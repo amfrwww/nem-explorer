@@ -1,0 +1,243 @@
+<div>
+<div id="content" class="container" style="padding-top:10px;padding-bottom:70px;min-height: 100%;">
+	<div ng-controller="FooterController">
+  <div class="container-2">
+     <div id="page-wrapper">                                        
+        <div class="row" >
+                    <div class="col-sm-4">
+                        <div class="circle-tile">
+                            <a>
+                                <div class="circle-tile-heading blue">
+                                    <i class="fa fa-globe fa-fw fa-3x"></i>
+                                </div>
+                            </a>
+                            <div class="circle-tile-content blue">
+                                <div class="circle-tile-description text-faded">
+                                    Market Share
+                                </div>
+                                <div class="circle-tile-number text-faded">
+                                    <span ng-bind="marketCap"></span>
+                                    <span id="sparklineA"></span>
+                                </div>
+                                <div class="circle-tile-footer"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="circle-tile">
+                            <a>
+                                <div class="circle-tile-heading green">
+                                    <i class="fa fa-dollar fa-fw fa-3x"></i>
+                                </div>
+                            </a>
+                            <div class="circle-tile-content green">
+                                <div class="circle-tile-description text-faded">
+                                    Price
+                                </div>
+                                <div class="circle-tile-number text-faded">
+                                    <span ng-bind="price"></span>
+                                </div>
+                                <div class="circle-tile-footer"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="circle-tile">
+                            <a>
+                                <div class="circle-tile-heading orange">
+                                    <i class="fa fa-cube fa-fw fa-3x"></i>
+                                </div>
+                            </a>
+                            <div class="circle-tile-content orange">
+                                <div class="circle-tile-description text-faded">
+                                    Block Height
+                                </div>
+                                <div class="circle-tile-number text-faded" ng-repeat="block in blockList" ng-if="$index == 0">
+                                    <span ng-bind="block.height"></span>
+                                </div>
+                                <div class="circle-tile-footer"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>      
+            </div>
+       </div>
+       <div >
+       <h3 style="font-size:20px; color: #003366; font-family: : helvetica;">10 Days Transaction History</h3>
+       </div>
+       <div ng-controller="graphController">
+    <div data-ng-init="graphTx()" style="width: 90%; height: auto; margin:0 5%; margin-bottom: 10px;">
+      <canvas id="myChart"></canvas>
+      </div>
+    </div>
+       <div >
+       <h3 style="font-size:20px; color: #003366; font-family: : helvetica;">Latest Five Blocks</h3>
+       </div>
+       <script type="text/javascript"></script>
+       <table class="hover" id="blockTable">
+      		<thead>
+      			<tr>
+      				<th>Block Height</th>
+      				<th>Harvester</th>
+      				<th>Txes</th>
+      				<th>Fee</th>
+      				<th>Timestamp</th>
+      				<th>Age</th>
+      			</tr>
+      		</thead>
+      		<tbody>
+      			<tr ng-repeat="block in blockList" ng-if="$index < 5 " style="cursor:pointer;" ng-click="showBlockTxes(block.txes, $index, $event)" data-tooltip tabIndex="1" title="click to view the transactions in block" data-position="right" data-alignment="center" ng-class="{success:selectedBlockHeight && selectedBlockHeight==block.height, fadeIn:fadeFlag}">
+      				<td><a href="#s_block?height={{block.height}}" target="_blank"><span class="noDetail" ng-bind="block.height"></span></a></td>
+      				<td><a href="#s_account?account={{block.harvester}}" target="_blank"><span ng-bind="block.harvester"></span></a></td>
+      				<td ng-bind="block.txAmount"></td>
+      				<td ng-bind="block.txFee"></td>
+      				<td ng-bind="block.timeStamp"></td>
+      				<td ng-bind="block.age"></td>
+      			</tr>
+      		</tbody>
+      	</table>
+    
+    </div>
+      <table id="blockBig" class="hover table-condensed fontSize12" ng-class="{hide:!showBlockTxesFlag}" style="margin-top:-16px;">
+        <thead>
+          <tr>
+            <th colspan="6" class="text-center">
+              Txes In Block <span ng-bind="selectedBlockHeight"></span>
+            </th>
+          </tr>
+        </thead>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Sender</th>
+            <th>Recipient</th>
+            <th>Amount / Fee</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody class="well well-large">
+          <tr ng-repeat="tx in txList" style="cursor:pointer;" ng-click="showTx(tx.height, tx.hash, $event)" ng-class="{success:selectedTXHash==tx.hash}">
+            <td ng-bind="$index+1"></td>
+            <td><a href="#s_account?account={{tx.sender}}" target="_blank"><span class="noDetail" ng-bind="tx.sender"></span></a></td>
+            <td><a href="#s_account?account={{tx.recipient}}" target="_blank"><span class="noDetail" ng-bind="tx.recipient"></span></a></td>
+            <td>
+              <span ng-bind="tx.amount"></span> / 
+              <span ng-bind="tx.fee"></span>
+            </td>
+            <td ng-bind="tx.time"></td>
+          </tr>
+        </tdoby>
+      </table>
+      <div class="modal fade" id="blockSmall" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close-button" data-dismiss="modal" aria-hidden="true" data-close>&times;</button>
+                    <h5 class="modal-title"><b>Txes In Block <span ng-bind="selectedBlockHeight"></span></b></h5>
+                 </div>
+                 <div class="modal-body">
+                  <div class=".clearfix"></div>
+                  <table class="hover table-condensed fontSize12" ng-class="{hide:!showBlockTxesFlag}" style="margin-top:-16px;">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Sender</th>
+                    <th>Recipient</th>
+                    <th>Amount / Fee</th>
+                    <th>Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody class="well well-large">
+                  <tr ng-repeat="tx in txList" style="cursor:pointer;" ng-click="showTx(tx.height, tx.hash, $event)" ng-class="{success:selectedTXHash==tx.hash}">
+                    <td ng-bind="$index+1"></td>
+                    <td><a href="#s_account?account={{tx.sender}}" target="_blank"><span class="noDetail" ng-bind="tx.sender"></span></a></td>
+                    <td><a href="#s_account?account={{tx.recipient}}" target="_blank"><span class="noDetail" ng-bind="tx.recipient"></span></a></td>
+                    <td>
+                      <span ng-bind="tx.amount"></span> / 
+                      <span ng-bind="tx.fee"></span>
+                    </td>
+                    <td ng-bind="tx.time"></td>
+                  </tr>
+                </tdoby>
+              </table>
+                 </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="txDetail" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close-button" data-dismiss="modal" aria-hidden="true" data-close>&times;</button>
+                    <h5 class="modal-title"><b>Transaction Detail</b></h5>
+                 </div>
+                 <div class="modal-body">
+                  <div class=".clearfix"></div>
+                  <table class="hover fontSize12">
+                    <tr style="line-height:26px;">
+                  <td style="width:140px;">
+                    Hash&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  </td>
+                  <td style="width:720px;"">
+                    <a href="#/s_tx?hash={{txHash}}" target="_blank">
+                      <span ng-bind="txHash"></span>
+                    </a>
+                  </td>
+                </tr>
+                    <tr ng-repeat="item in items" style="line-height:26px;">
+                  <td><span ng-bind="item.label"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                  <td ng-bind="item.content" style="word-break: break-word;"></td>
+                </tr>
+              </table>
+                 </div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: right; size: 15px;">
+      <a href="#/blocklist">SEE MORE<i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+</div>
+
+ 
+   <div id="engadget-footer-sitemap-container">
+    <footer id="engadget-footer-sitemap">
+      <div class="links">
+        <div class="link-column">
+          <ul class="menu vertical">
+            <img class="logo-footer" src="views/images/nem_2.png" alt="logo-footer" width="150" height=8px"> <br>
+            <p>NEM is the Smart Asset blockchain. It’s more than a cryptocurrency, it’s a platform for managing data. It’s the easiest and most cost-effective way to bring blockchain technology to your business.</p>
+          </ul>
+        </div>
+        <div class="link-column">
+          <ul class="menu vertical">
+            <h4>CONTACTS</h4>
+            <li><a href="https://t.me/nemred" target="_blank"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;Telegram</a></li>
+            <li><a href="https://twitter.com/nemofficial/" target="_blank"><i class="fa fa-twitter"></i>&nbsp;&nbsp;Twitter</a></li>
+            <li><a href="https://www.facebook.com/ourNEM/" target="_blank"><i class="fa fa-facebook-square"></i>&nbsp;&nbsp;Facebook</a></li>
+            <li><a href="mailto:info@nem.foundation" target="_blank"><i class="fa fa-envelope"></i>&nbsp;&nbsp;Mail</a></li>
+          </ul>
+        </div>
+         <div class="link-column">
+          <ul class="menu vertical">
+            <h4>LINKS</h4>
+            <li><a href="https://nem.io/" target="_blank">Discover NEM</a></li>
+            <li><a href="https://nemflash.io/" target="_blank">NEM News</a></li>
+            <li><a href="https://nem.io/downloads/" target="_blank">Downloads</a></li>
+            <li><a href="https://nem.io/community/" target="_blank">Participate</a></li>
+          </ul>
+        </div>
+        <div class="link-column">
+          <ul class="menu vertical">
+            <br><br>
+            <li><a href="https://nem.io/about/foundation/" target="_blank">About</a></li>
+            <li><a href="https://nem.io/developers/" target="_blank">Developers</a></li>
+            <li><a href="https://bitcointalk.org/index.php?topic=654845.new#new" target="_blank">Bitcoin Talk</a></li>
+            <li><a href="https://www.reddit.com/r/nem/" target="_blank">Reddit</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+  
+  

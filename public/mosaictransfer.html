@@ -1,0 +1,94 @@
+<div id="content" class="container fontSize12" style="padding-top:10px;padding-bottom:70px;">
+	<div style="margin-bottom:20px;">
+		<span style="font-size:16px;font-weight:bold;">Mosaic Transfer</span>
+		<button type="button" style="padding:5px;display:inline;float:right;margin-top:2px;background-color:#1A75B6;color:#FEFEFE;margin-left:4px;margin-right:2px;" ng-click="searchMosaic()" ng-disabled="searchingFlag">
+ 			<span class="fa fa-search"></span>
+ 		</button>
+		<input ng-model="searchInput" type="text" style="height:24px;font-size:12px;max-width:360px;display:inline;float:right;margin-right:2px;padding-left:6px;" placeholder="mosaicID (e.g. dim:coin)">
+		<img ng-if="searchingFlag" src="views/images/loading.gif" width="20" height="20" style="float:right;margin-right:10px;"/>
+	</div>
+	<div class="callout alert-callout-border warning radius" ng-if="warningFlag" data-closable>
+		<i class="fa fa-exclamation-triangle"></i>
+	    <button href="javascript:void(0);" class="close-button" type="button" ng-click="closeWarning()" data-close>&CircleTimes;</button>
+	    <span ng-bind="warningContent"></span>
+	</div>
+	<div infinite-scroll="loadMore()" infinite-scroll-immediate-check="false" infinite-scroll-disabled="loadingFlag">
+		<table class="hover">
+			<thead>
+			<tr>
+				<th>MosaicID</th>
+				<th>Quantity</th>
+				<th>Sender</th>
+				<th>Recipient</th>
+				<th>Age</th>
+			</tr>
+			</thead>
+			<tr ng-if="nothingToShowFlag">
+				<td colspan="5">Nothing to show</td>
+			</tr>
+			<tr ng-repeat="mt in mosaicTransferList" style="cursor:pointer; font-size:11px;" ng-class="{success:selectedNO==mt.no, fadeIn:fadeFlag}" ng-click="showMT($index, $event)">
+				<td>
+					<a href="#/mosaic?ns={{mt.namespace}}&m={{mt.mosaic}}" target="_blank" class="noDetail">
+						<span ng-bind="mt.namespace" class="noDetail"></span>:<span ng-bind="mt.mosaic" class="noDetail"></span>
+					</a>
+				</td>
+				<td width="120" ng-bind="mt.quantity"></td>
+				<td width="340">
+					<a href="#/s_account?account={{mt.sender}}" class="noDetail" target="_blank"><span ng-bind="mt.sender" class="noDetail"></span></a>
+				</td>
+				<td width="340">
+					<a href="#/s_account?account={{mt.sender}}" class="noDetail" target="_blank"><span ng-bind="mt.recipient" class="noDetail"></span></a>
+				</td>
+				<td width="114">
+					<div ng-bind="mt.age" style="width:114px;"></div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="text-center" ng-if="loadingFlag"><img src="views/images/loading.gif"/></div>
+	<div class="text-center" ng-if="endFlag">This is the end</div>
+	<div class="modal fade" id="mtDetail" tabindex="-1" role="dialog">
+		<div class="modal-dialog"">
+	    	<div class="modal-content">
+	        	<div class="modal-header">
+	            	<button type="button" class="close-button" data-dismiss="modal" aria-hidden="true" data-close>&times;</button>
+	            	<h5 class="modal-title"><b>Mosaic Transfer Detail</b></h5>
+		         </div>
+		         <div class="modal-body">
+		         	<table class="hover fontSize12 unstriped">
+		         		<tr style="line-height:26px;">
+							<td width="140">Hash</td>
+							<td>
+								<a href="#/s_tx?hash={{selectedItem.hash}}" target="_blank">
+									<span ng-bind="selectedItem.hash"></span>
+								</a>
+							</td>
+						</tr>
+						<tr style="line-height:26px;">
+							<td>MosaicID</td>
+							<td>
+								<span ng-bind="selectedItem.namespace"></span>:<span ng-bind="selectedItem.mosaic"/></span>
+							</td>
+						</tr>
+						<tr style="line-height:26px;">
+							<td>Quantity</td>
+							<td><span ng-bind="selectedItem.quantity"></span></td>
+						</tr>
+						<tr style="line-height:26px;">
+							<td>Sender</td>
+							<td><span ng-bind="selectedItem.sender"></span></td>
+						</tr>
+						<tr style="line-height:26px;">
+							<td>Recipient</td>
+							<td><span ng-bind="selectedItem.recipient"></span></td>
+						</tr>
+						<tr style="line-height:26px;">
+							<td>TimeStamp</td>
+							<td><span ng-bind="selectedItem.timeStamp"></span></td>
+						</tr>
+					</table>
+		         </div>
+			</div>
+		</div>
+	</div>
+</div>

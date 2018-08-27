@@ -1,0 +1,50 @@
+<div id="content" class="container fontSize12" style="padding-bottom:70px;">
+	<table class="hover">
+		<thead>
+			<tr>
+				<th>Timestamp / Deadline</th>
+				<th>Sender / Recipient</th>
+				<th>Type</th>
+				<th>Amount / Fee</th>
+				<th>Age</th>
+			</tr>
+		</thead>
+		<tbody class="well well-large">
+			<tr ng-repeat="tx in txList" style="cursor:pointer;" ng-click="showUnconfirmedTx($index, $event)" ng-class="{success:selectedTXSign && selectedTXSign==tx.signature, fadeIn:fadeFlag}">
+				<td>
+					<span ng-bind="tx.timeStamp"></span>&nbsp;<br/>
+					<span ng-bind="tx.deadline"></span>
+				</td>
+				<td>
+					<a href="#s_account?account={{tx.sender}}" target="_blank"><span class="noDetail" ng-bind="tx.sender"></span></a>&nbsp;<br/>
+					<a href="#s_account?account={{tx.recipient}}" target="_blank"><span class="noDetail" ng-bind="tx.recipient"></span></a>&nbsp;
+				</td>
+				<td ng-bind="tx.typeName"></td>
+				<td>
+					<span ng-bind="tx.amount"></span> / 
+					<span ng-bind="tx.fee"></span>
+				</td>
+				<td ng-bind="tx.age"></td>
+			</tr>
+		</tbody>
+	</table>
+	<div ng-class="{hide:txList.length!=0}">There is no unconfirmed transaction.</div>
+	<div class="modal fade" id="txDetail" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+	    	<div class="modal-content">
+	        	<div class="modal-header">
+	            	<button type="button" class="close-button" data-dismiss="modal" aria-hidden="true" data-close>&times;</button>
+	            	<h5 class="modal-title"><b>Unconfirmed Transaction Detail</b></h5>
+		         </div>
+		         <div class="modal-body">
+		         	<table class="hover">
+		         		<tr ng-repeat="item in items" style="line-height:26px;">
+							<td style="width:140px;"><span ng-bind="item.label"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+							<td ng-bind="item.content" style="width:720px; word-break: break-word;"></td>
+						</tr>
+					</table>
+		         </div>
+			</div>
+		</div>
+	</div>
+</div>

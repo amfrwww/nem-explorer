@@ -1,0 +1,60 @@
+<div id="content" class="container fontSize12" style="padding-top:10px;padding-bottom:70px;">
+	<h4>Block Detail</h4>
+	<table class="hover well well-large">
+		<tr ng-repeat="blockItem in blockItems" style="line-height:26px;">
+			<td><span ng-bind="blockItem.label"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td ng-bind="blockItem.content"></td>
+		</tr>
+	</table>
+	<table class="hover" ng-class="{hide:!showBlockTransactionsFlag}">
+		<thead>
+			<tr>
+				<td>#</td>
+				<td>Timestamp</td>
+				<td>Amount</td>
+				<td>Fees</td>
+				<td>Sender</td>
+				<td>Recipient</td>
+			</tr>
+		</thead>
+		<tbody class="well well-large">
+			<tr ng-repeat="tx in txList" style="cursor:pointer;" ng-click="showTx(tx, $event)" ng-class="{success:selectedTXHash==tx.hash}">
+				<td ng-bind="$index+1" width="40"></td>
+				<td ng-bind="tx.time" width="140"></td>
+				<td ng-bind="tx.amount"></td>
+				<td ng-bind="tx.fee" width="100"></td>
+				<td width="360"><a href="#s_account?account={{tx.sender}}" target="_blank"><span class="noDetail" ng-bind="tx.sender"></span></a></td>
+				<td width="360"><a href="#s_account?account={{tx.recipient}}" target="_blank"><span class="noDetail" ng-bind="tx.recipient"></span></a></td>
+			</tr>
+		</tdoby>
+	</table>
+	<div class="modal fade" id="txDetail" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+	    	<div class="modal-content">
+	        	<div class="modal-header">
+	            	<button type="button" class="close-button" data-dismiss="modal" aria-hidden="true" data-close>&times;</button>
+	            	<h5 class="modal-title"><b>Transaction Detail</b></h5>
+		         </div>
+		         <div class="modal-body">
+		         	<table class="hover">
+		         		<tr style="line-height:26px;">
+							<td style="width:140px;">
+								Hash&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</td>
+							<td style="width:720px;"">
+								<a href="#/s_tx?hash={{txHash}}" target="_blank" ng-if="currentBlock.height>1">
+									<span ng-bind="txHash"></span>
+								</a>
+								<span ng-if="currentBlock.height==1">#</span>
+							</td>
+						</tr>
+		         		<tr ng-repeat="item in items" style="line-height:26px;">
+							<td style="width:140px;"><span ng-bind="item.label"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+							<td ng-bind="item.content" style="width:720px; word-break: break-word;"></td>
+						</tr>
+					</table>
+		         </div>
+			</div>
+		</div>
+	</div>
+</div>

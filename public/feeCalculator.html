@@ -1,0 +1,38 @@
+<div id="content" class="container fontSize12" style="padding-bottom:70px;">
+	<h3>Transaction Fee Calculator</h3>
+	<div style="margin-top:20px;">
+		<label id="amount">Amount</label>
+		<div class="input-container" id="amount2">
+			<input class="box-input" type="text" ng-model="amount" ng-keyup="handle()" style="width:100%; margin-left:4px; margin-right:4px; padding-left:4px; background-color: #eaedf2;"/>
+		</div>
+		<label>
+		Message
+		<textarea id="textarea" class="box-input" placeholder="Message ([0-9 a-f A-F] for Hexadecimal)" type="text" ng-model="message" ng-trim="false" ng-keyup="handle()" style="width:100%; margin-left:4px; margin-right:4px; padding-left:4px; margin-bottom: 0px;"></textarea>
+		<div class="wordCount">
+			<strong>Characters left: </strong>{{selectedValue-message.length}}
+		</div>
+		</label>
+		<br>
+		Message Type
+		<select ng-model="selectedValue" ng-options="msg.value as msg.name for msg in messageType track by msg.value" ng-change="getMessageType()">
+	  </select>
+	  <input id="checkbox" type="checkbox" ng-click="hideAmount()"><label for="checkbox">Mosaic Transfer</label>
+	</div>
+	<div id="mosaic" style="margin-top:20px;">
+		<label id="mosaicAmount">Mosaic Amount
+		<input class="box-input" type="text" ng-model="mosaicAmount" ng-keyup="handle()" style="width:100%; margin-left:4px; margin-right:4px; padding-left:4px;"/>
+		</label>
+		<label id="mosaicSuply">Mosaic Supply
+		<input class="box-input" type="text" ng-model="mosaicSupply" ng-keyup="handle()" style="width:100%; margin-left:4px; margin-right:4px; padding-left:4px;"/>
+		</label>
+		<label id="mosaiDiv">Divisibility
+		<input class="box-input" type="text" ng-model="mosaicDiv" ng-keyup="handle()" style="width:100%; margin-left:4px; margin-right:4px; padding-left:4px;"/>
+		</label>
+	</div>
+	<div style="margin-top:20px;">
+		<label id="fee">Fee</label>
+		<div class="input-container">
+		<input class="box-input" type="text" ng-model="fee" style="width:100%; margin-left:4px; margin-right:4px; padding-left:4px; background-color: #eaedf2;"/>
+		</div>
+	</div>
+</div>

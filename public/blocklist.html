@@ -1,0 +1,123 @@
+<div id="content" class="container" style="padding-bottom:70px;">
+	<table class="hover" id="blockTable">
+		<thead>
+			<tr>
+				<th>Block Height</th>
+				<th>Harvester</th>
+				<th>Txes</th>
+				<th>Fee</th>
+				<th>Timestamp</th>
+				<th>Age</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="block in blockList" style="cursor:pointer;" ng-click="showBlockTxes(block.txes, $index, $event)" data-tooltip tabIndex="1" title="click to view the transactions in block" data-position="right" data-alignment="center" ng-class="{success:selectedBlockHeight && selectedBlockHeight==block.height, fadeIn:fadeFlag}">
+				<td><a href="#s_block?height={{block.height}}" target="_blank"><span class="noDetail" ng-bind="block.height"></span></a></td>
+				<td><a href="#s_account?account={{block.harvester}}" target="_blank"><span ng-bind="block.harvester"></span></a></td>
+				<td ng-bind="block.txAmount"></td>
+				<td ng-bind="block.txFee"></td>
+				<td ng-bind="block.timeStamp"></td>
+				<td ng-bind="block.age"></td>
+			</tr>
+		</tbody>
+	</table>
+	<ul class="pagination" style="margin-top:-16px;">
+		<li class="pagination-previous" ng-class="{disabled:page<=1}" ng-click="previousPage();"><a href="javascript:void(0);">&#9668 previous <span class="show-for-sr">page</span></a></li>
+		<li class="pagination-next"><a href="javascript:void(0);" ng-click="nextPage();">next &#9658<span class="show-for-sr">page</span></a></li>
+	</ul>
+	<table id="blockBig" class="hover table-condensed fontSize12" ng-class="{hide:!showBlockTxesFlag}" style="margin-top:-16px;">
+		<thead>
+			<tr>
+				<th colspan="6" class="text-center">
+					Txes In Block <span ng-bind="selectedBlockHeight"></span>
+				</th>
+			</tr>
+		</thead>
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Sender</th>
+				<th>Recipient</th>
+				<th>Amount / Fee</th>
+				<th>Timestamp</th>
+			</tr>
+		</thead>
+		<tbody class="well well-large">
+			<tr ng-repeat="tx in txList" style="cursor:pointer;" ng-click="showTx(tx.height, tx.hash, $event)" ng-class="{success:selectedTXHash==tx.hash}">
+				<td ng-bind="$index+1"></td>
+				<td><a href="#s_account?account={{tx.sender}}" target="_blank"><span class="noDetail" ng-bind="tx.sender"></span></a></td>
+				<td><a href="#s_account?account={{tx.recipient}}" target="_blank"><span class="noDetail" ng-bind="tx.recipient"></span></a></td>
+				<td>
+					<span ng-bind="tx.amount"></span> / 
+					<span ng-bind="tx.fee"></span>
+				</td>
+				<td ng-bind="tx.time"></td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="modal fade" id="blockSmall" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+	    	<div class="modal-content">
+	        	<div class="modal-header">
+	            	<button type="button" class="close-button" data-dismiss="modal" aria-hidden="true" data-close>&times;</button>
+	            	<h5 class="modal-title"><b>Txes In Block <span ng-bind="selectedBlockHeight"></span></b></h5>
+		         </div>
+		         <div class="modal-body">
+		         	<div class=".clearfix"></div>
+		         	<table class="hover table-condensed fontSize12" ng-class="{hide:!showBlockTxesFlag}" style="margin-top:-16px;">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Sender</th>
+								<th>Recipient</th>
+								<th>Amount / Fee</th>
+								<th>Timestamp</th>
+							</tr>
+						</thead>
+						<tbody class="well well-large">
+							<tr ng-repeat="tx in txList" style="cursor:pointer;" ng-click="showTx(tx.height, tx.hash, $event)" ng-class="{success:selectedTXHash==tx.hash}">
+								<td ng-bind="$index+1"></td>
+								<td><a href="#s_account?account={{tx.sender}}" target="_blank"><span class="noDetail" ng-bind="tx.sender"></span></a></td>
+								<td><a href="#s_account?account={{tx.recipient}}" target="_blank"><span class="noDetail" ng-bind="tx.recipient"></span></a></td>
+								<td>
+									<span ng-bind="tx.amount"></span> / 
+									<span ng-bind="tx.fee"></span>
+								</td>
+								<td ng-bind="tx.time"></td>
+							</tr>
+						</tbody>
+					</table>
+		         </div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="txDetail" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+	    	<div class="modal-content">
+	        	<div class="modal-header">
+	            	<button type="button" class="close-button" data-dismiss="modal" aria-hidden="true" data-close>&times;</button>
+	            	<h5 class="modal-title"><b>Transaction Detail</b></h5>
+		         </div>
+		         <div class="modal-body">
+		         	<div class=".clearfix"></div>
+		         	<table class="hover fontSize12">
+		         		<tr style="line-height:26px;">
+							<td style="width:140px;">
+								Hash&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</td>
+							<td style="width:720px;"">
+								<a href="#/s_tx?hash={{txHash}}" target="_blank">
+									<span ng-bind="txHash"></span>
+								</a>
+							</td>
+						</tr>
+		         		<tr ng-repeat="item in items" style="line-height:26px;">
+							<td><span ng-bind="item.label"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+							<td ng-bind="item.content" style="word-break: break-word;"></td>
+						</tr>
+					</table>
+		         </div>
+			</div>
+		</div>
+	</div>
+</div>

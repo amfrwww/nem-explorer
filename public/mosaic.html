@@ -1,0 +1,200 @@
+<div id="content" class="container fontSize12" style="padding-top:10px;padding-bottom:70px;">
+	<h4>Mosaic Detail</h4>
+	<div ng-if="!mosaic" style="font-size: 16px;line-height:50px;" ng-bind="message"></div>
+	<div ng-if="mosaic">
+		<table class="hover well well-large">
+			<tr>
+				<td width="180">MosaicID</td>
+				<td>
+					<span ng-bind="mosaic.namespace"></span>:<span ng-bind="mosaic.mosaicName"></span>
+				</td>
+			</tr>
+			<tr>
+				<td>Namespace</td>
+				<td>
+					<a ng-if="mosaic.namespace!='nem'" href="#/namespace?ns={{mosaic.namespace}}" target="_blank">
+						<span ng-bind="mosaic.namespace"></span>
+					</a>
+					<span ng-if="mosaic.namespace=='nem'" ng-bind="mosaic.namespace"></span>
+				</td>
+			</tr>
+			<tr>
+				<td>Creator</td>
+				<td>
+					<a href="#/s_account?account={{mosaic.creator}}" target="_blank">
+						<span ng-bind="mosaic.creator"></span>
+					</a>
+				</td>
+			</tr>
+			<tr>
+				<td>Create / Update Time</td>
+				<td>
+					<span ng-bind="mosaic.timeStamp"></span>
+				</td>
+			</tr>
+			<tr>
+				<td>Create / Update Height</td>
+				<td>
+					<a href="#/s_block?height={{mosaic.height}}" target="_blank">
+						<span ng-bind="mosaic.height"></span>
+					</a>
+				</td>
+			</tr>
+			<tr>
+				<td>Supply</td>
+				<td>
+					<span ng-bind="mosaic.initialSupply"></span>
+				</td>
+			</tr>
+			<tr>
+				<td>Divisibility</td>
+				<td ng-bind="mosaic.divisibility"></td>
+			</tr>
+			<tr>
+				<td>SupplyMutable</td>
+				<td>
+					<span ng-class="{hide:mosaic.supplyMutable!=0}">No</span>
+					<span ng-class="{hide:mosaic.supplyMutable!=1}">Yes</span>
+				</td>
+			</tr>
+			<tr>
+				<td>Transferable</td>
+				<td>
+					<span ng-class="{hide:mosaic.transferable!=0}">No</span>
+					<span ng-class="{hide:mosaic.transferable!=1}">Yes</span>
+				</td>
+			</tr>
+			<tr ng-class="{hide:!mosaic.levyType}">
+				<td>Levy Type</td>
+				<td>
+					<span ng-class="{hide:mosaic.levyType!=1}">absolute fee</span>
+					<span ng-class="{hide:mosaic.levyType!=2}">relative fee</span>
+				</td>
+			</tr>
+			<tr ng-class="{hide:!mosaic.levyMosaic}">
+				<td>Levy Mosaic</td>
+				<td>
+					<span ng-bind="mosaic.levyNamespace"></span>:<span ng-bind="mosaic.levyMosaic"></span>
+				</td>
+			</tr>
+			<tr ng-class="{hide:!mosaic.levyFee}">
+				<td>Levy Fee</td>
+				<td ng-bind="mosaic.levyFee"></td>
+			</tr>
+			<tr ng-class="{hide:!mosaic.levyRecipient}">
+				<td>Levy Recipient</td>
+				<td ng-bind="mosaic.levyRecipient"></td>
+			</tr>
+			<tr>
+				<td>Description</td>
+				<td ng-bind="mosaic.description"></td>
+			</tr>
+		</table>
+		<ul class="nav nav-tabs" role="tablist" id="tab" style="margin-top: 40px;">
+			<li role="presentation" class="active">
+				<a href="#mosaicTransfer" role="tab" data-toggle="tab">
+					<span style="font-weight: bold;">Mosaic Transfer</span>
+				</a>
+			</li>
+			<li role="presentation">
+				<a href="#richList" role="tab" data-toggle="tab">
+					<span style="font-weight: bold;">Rich List</span>
+				</a>
+			</li>
+		</ul>
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="mosaicTransfer">
+				<div infinite-scroll="loadMosaicTransfer()" infinite-scroll-immediate-check="false" infinite-scroll-disabled="loadingFlag">
+					<table class="hover">
+						<thead>
+							<tr>
+								<td>#</td>
+								<td>Sender</td>
+								<td>Recipient</td>
+								<td>Quantity</td>
+								<td>TimeStamp</td>
+							</tr>
+						</thead>
+						<tbody class="well well-large">
+							<tr ng-class="{hide:mosaicTransferList&&mosaicTransferList.length>0}">
+								<td colspan="5">Nothing to show</td>
+							</tr>
+							<tr ng-repeat="m in mosaicTransferList" style="cursor:pointer;" ng-click="showMosaicTransferDetail($index, $event)" ng-class="{success:selectedIndex==$index}">
+								<td ng-bind="$index+1"></td>
+								<td>
+									<a href="#s_account?account={{m.sender}}" target="_blank"><span class="noDetail" ng-bind="m.sender"></span></a>
+								</td>
+								<td>
+									<a href="#s_account?account={{m.recipient}}" target="_blank"><span class="noDetail" ng-bind="m.recipient"></span></a>
+								</td>
+								<td ng-bind="m.quantity"></td>
+								<td ng-bind="m.timeStamp"></td>
+							</tr>
+						</tboby>
+					</table>
+				</div>
+				<div class="text-center" ng-if="loadingFlag"><img src="views/images/loading.gif"/></div>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="richList">
+				<div infinite-scroll="loadMosaicRichList()" infinite-scroll-immediate-check="false" infinite-scroll-disabled="richListLoadingFlag">
+					<table class="hover">
+						<thead>
+							<tr>
+								<td>#</td>
+								<td>Address</td>
+								<td>Quantity</td>
+							</tr>
+						</thead>
+						<tbody class="well well-large">
+							<tr ng-repeat="mr in mosaicRichList">
+								<td ng-bind="$index+1" width="50"></td>
+								<td>
+									<a href="#s_account?account={{mr.address}}" target="_blank"><span class="noDetail" ng-bind="mr.address"></span></a>
+								</td>
+								<td ng-bind="mr.quantity" width="240"></td>
+							</tr>
+						</tboby>
+					</table>
+				</div>
+				<div class="text-center" ng-if="richListLoadingFlag"><img src="views/images/loading.gif"/></div>
+			</div>
+		</div>
+		<div class="modal fade" id="mosaicTransferDetail" tabindex="-1" role="dialog">
+			<div class="modal-dialog"">
+		    	<div class="modal-content">
+		        	<div class="modal-header">
+		            	<button type="button" class="close-button" data-dismiss="modal" aria-hidden="true" data-close>&times;</button>
+		            	<h5 class="modal-title"><b>Mosaic Transfer Detail</b></h5>
+			         </div>
+			         <div class="modal-body">
+			         	<table class="hover">
+			         		<tr style="line-height:26px;">
+								<td width="180">Hash</td>
+								<td>
+									<a href="#/s_tx?hash={{selectedMosaicTransfer.hash}}" target="_blank"><span ng-bind="selectedMosaicTransfer.hash"></span></a>
+								</td>
+							</tr>
+							<tr style="line-height:26px;">
+								<td>TimeStamp</td>
+								<td ng-bind="selectedMosaicTransfer.timeStamp"></td>
+							</tr>
+							<tr style="line-height:26px;">
+								<td>Sender</td>
+								<td ng-bind="selectedMosaicTransfer.sender"></td>
+							</tr>
+							<tr style="line-height:26px;">
+								<td>Recipient</td>
+								<td ng-bind="selectedMosaicTransfer.recipient"></td>
+							</tr>
+							<tr style="line-height:26px;">
+								<td>Quantity</td>
+								<td ng-bind="selectedMosaicTransfer.quantity"></td>
+							</tr>
+						</table>
+			         </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>

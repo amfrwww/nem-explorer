@@ -1,0 +1,180 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEM - BlockChain Explorer</title>
+    <link rel="stylesheet" href="css/foundation.min.css">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="views/images/favicon.png" type="image/x-icon">
+    <script type = "text/javascript" src = "https://www.gstatic.com/charts/loader.js">
+      </script>
+      <script type = "text/javascript">
+         google.charts.load('current', {packages: ['corechart','line']});  
+      </script>
+  </head>
+  <body ng-app="webapp" class="minwidth">
+    <div class="header">
+    <div class="multilevel-offcanvas off-canvas position-left" id="offCanvasLeft" ng-controller="NavController" data-off-canvas>
+
+<ul class="vertical menu show-for-small-only">
+        <a class="nav-bar-logo" href="#/"><img src="views/images/NEM-OFFICIAL-LOGO-white.png" width="101.38" height="31"></a>
+      </ul>
+  <ul class="vertical menu">
+    <li><a ng-class="navClass0" href="#/"><i class="fa fa-home"></i>HOME</a></li>
+    <li><a ng-class="navClass1" href="#/blocklist"><i class="fa fa-cubes"></i>BLOCKS</a></li>
+  </ul>
+  <ul class="vertical menu" data-accordion-menu data-multi-open="false">
+    <li><a href="javascript:void(0)"><i class="fa fa-credit-card"></i>TRANSACTIONS</a>
+      <ul class="menu vertical nested submenu">
+        <li><a ng-class="navClass21" href="#/txlist">Recent Transactions</a></li>
+          <li><a ng-class="navClass22" href="#/unconfirmedtxlist">Pending Transactions</a></li>
+          <li><a ng-class="navClass20" href="#/feeCalculator">Transaction Fee Calculator</a></li>
+          <li class="divider"></li>
+          <li class="divider"></li>
+          <li><a ng-class="navClass23" href="#/txlist?type=transfer">Transfer Transactions</a></li>
+          <li><a ng-class="navClass24" href="#/txlist?type=importance">Importance Transactions</a></li>
+          <li><a ng-class="navClass25" href="#/txlist?type=aggregate">Aggregate Transactions</a></li>
+          <li><a ng-class="navClass26" href="#/txlist?type=multisig">Multisig Transactions</a></li>
+          <li><a ng-class="navClass27" href="#/txlist?type=namespace">Namespace Transactions</a></li>
+          <li><a ng-class="navClass28" href="#/txlist?type=mosaic">Mosaic Transactions</a></li>
+          <li><a ng-class="navClass29" href="#/txlist?type=apostille">Apostille Transactions</a></li>
+       </ul>
+    </li>
+    <li><a href="javascript:void(0)"><i class="fa fa-users"></i>ACCOUNTS</a>
+      <ul class="menu vertical nested">
+        <li><a ng-class="navClass31" href="#/accountlist">Rich List</a></li>
+          <li><a ng-class="navClass32" href="#/harvesterlist">Harvester List</a></li>
+          <li><a ng-class="navClass33" href="#/harvestingCalculator">Harvesting Calculator</a></li>
+       </ul>
+     </li>
+    <li><a href="javascript:void(0)"><i class="fa fa-dot-circle-o"></i>NODES</a>
+      <ul class="menu vertical nested">
+       <li><a ng-class="navClass41" href="#/nodelist">Node List</a></li>
+          <li><a ng-class="navClass42" href="#/supernodepayout">Supernode Reward</a></li>
+          <li><a ng-class="navClass43" href="#/supernodepayout_custom">Supernode Reward (Custom)</a></li>
+       </ul>
+    </li>
+    <li><a href="javascript:void(0)"><i class="fa fa-list-alt"></i>NS & MOSAICS</a>
+      <ul class="menu vertical nested">
+       <li><a ng-class="navClass51" href="#/namespacelist">Namespace List</a></li>
+          <li><a ng-class="navClass52" href="#/mosaiclist">Mosaic List</a></li>
+          <li><a ng-class="navClass53" href="#/mosaictransfer">Mosaic Transfer</a></li>
+       </ul>
+    </li>
+   </ul>
+  <ul class="vertical menu">
+     <li><a ng-class="navClass6" href="#/polllist"><i class="fa fa-bar-chart"></i>POLLS</a></li>
+   </ul>
+  <ul class="menu simple social-links">
+    <li><a href="https://twitter.com/nemofficial/" target="_blank"><i class="fa fa-twitter-square" aria-hidden="true"></i></a></li>
+    <li><a href="https://www.facebook.com/ourNEM/" target="_blank"><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
+    <li><a href="https://github.com/nemtech" target="_blank"><i class="fa fa-github-square" aria-hidden="true"></i></a></li>
+    <li><a href="mailto:info@nem.foundation" target="_blank"><i class="fa fa-envelope-square" aria-hidden="true"></i></a></li>
+  </ul>
+</div>
+
+<div class="off-canvas-content" data-off-canvas-content>
+  <div class="nav-bar">
+      <div class="nav-bar-left">
+        <ul class="menu">
+          <li>
+          <li>
+            <button class="offcanvas-trigger" type="button" data-open="offCanvasLeft">
+              <span class="offcanvas-trigger-text hide-for-small-only">Menu</span>
+              <div class="hamburger">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+              </div>
+            </button>
+          </li>
+        </ul>
+    </div>
+    <div class="nav-bar-center hide-for-small-only">
+        <a class="nav-bar-logo" href="#/"><img src="views/images/NEM-OFFICIAL-LOGO-white.png" width="101.38" height="31"></a>
+      </div>
+      <div class="nav-bar-right" ng-controller="NavController">
+        <ul id="searchbar" class="menu">
+          <li><input id="searchInput" type="text" style:"width:200px;" placeholder="block height / tx id / account"></li>
+          <li><button id="search" type="button" class="button" ng-click="search()"><i class="fa fa-search"></i></button></li>
+        </ul>
+  </div>
+      <div class="clearfix"></div>
+  </div>
+</div>
+
+<div id="warning" class="callout alert-callout-border warning radius hide" data-closable>
+  <i class="fa fa-exclamation-triangle"></i>
+  <button class="close-button" on-click="$('#warning').hide();" aria-label="Dismiss alert" type="button" data-close>
+    <span aria-hidden="true">&CircleTimes;</span>
+  </button>
+  <strong>WARNING:</strong>
+  <span id="warningContent"></span>
+</div>
+</div>
+<div ng-view></div>
+
+<div class="scrolltop">
+    <div class="scroll icon"><i class="fa fa-angle-up"></i></div>
+</div>
+
+
+    <div ng-controller="FooterController">
+      <footer class="footer">
+      <p>
+        <a href="http://nem.io" target="_blank">NEM IO</a> &nbsp;&nbsp;&nbsp; <a href="https://forum.nem.io/" target="_blank">NEM Forum</a> &nbsp;&nbsp;&nbsp; <a href="https://supernodes.nem.io/" target="_blank">NEM Supernodes</a> &nbsp;&nbsp;&nbsp;
+        <a href="https://github.com/NEMChina/nem_explorer_nodejs/commits/master" target="_blank">
+      Version:
+      <span ng-bind="version"></span>
+      </a> &nbsp;&nbsp;&nbsp;
+        <a href="https://forum.nem.io/t/explorer-ournem-com-feedback/" target="_blank"><i class="fas fa-comment-alt"></i>&nbsp;&nbsp;Feedback</a>
+      </p>
+    </div>
+  </footer>
+
+
+  <script src="js/vendor/jquery.js"></script>
+  <script src="js/vendor/foundation.min.js"></script>
+    <script src="js/vendor/what-input.js"></script>
+  <script src="views/scripts/bootstrap.min.js"></script>
+  <script src="views/scripts/angular.min.js"></script>
+  <script src="views/scripts/angular-animate.min.js"></script>
+  <script src="views/scripts/angular-route.min.js"></script>
+  <script src="views/scripts/angular-cookies.min.js"></script>
+  <script src="views/scripts/xbbcode.js"></script>
+  <script src="views/scripts/jquery.dataTables.min.js"></script>
+  <script src="views/scripts/dataTables.bootstrap.min.js"></script>
+  <script src="views/scripts/dataTables.select.min.js"></script>
+  <script src="views/scripts/Chart.bundle.min.js"></script>
+  <script src="views/scripts/sockjs.min.js"></script>
+  <script src="views/scripts/stomp.min.js"></script>
+  <script src="views/scripts/ng-infinite-scroll.min.js"></script>
+  <script src="webapp.js"></script>
+  <script src="utils/utils.js"></script>
+  <script src="services/account.client.service.js"></script>
+  <script src="services/block.client.service.js"></script>
+  <script src="services/mosaic.client.service.js"></script>
+  <script src="services/namespace.client.service.js"></script>
+  <script src="services/node.client.service.js"></script>
+  <script src="services/supernode.client.service.js"></script>
+  <script src="services/tx.client.service.js"></script>
+  <script src="services/footer.client.service.js"></script>
+  <script src="services/poll.client.service.js"></script>
+  <script src="controllers/account.client.controller.js"></script>
+  <script src="controllers/block.client.controller.js"></script>
+  <script src="controllers/mosaic.client.controller.js"></script>
+  <script src="controllers/namespace.client.controller.js"></script>
+  <script src="controllers/nav.client.controller.js"></script>
+  <script src="controllers/node.client.controller.js"></script>
+  <script src="controllers/supernode.client.controller.js"></script>
+  <script src="controllers/tx.client.controller.js"></script>
+  <script src="controllers/footer.client.controller.js"></script>
+  <script src="controllers/harvest.client.controller.js"></script>
+  <script src="controllers/poll.client.controller.js"></script> 
+    <script src="js/vendor/angular-foundation.min.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

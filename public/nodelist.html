@@ -1,0 +1,40 @@
+<div id="content" class="container fontSize12" style="padding-bottom:70px;">
+	<h4 class="pull-left" style="padding-left:10px; font-size:16px; "><a href="http://supernodes.nem.io" target="_blank">Supernodes.nem.io</a></h4>
+	<div class="form-group pull-right" style="width:140px;">
+    	<label class="checkbox">
+			<input type="checkbox" ng-model="justSupernode" value="1"> Only Supernodes
+		</label>
+  	</div>
+  	<div class="clearfix"></div>
+	<table class="hover" id="nodeTable">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Host</th>
+				<th>Node Name</th>
+				<th>Height</th>
+				<th>Version</th>
+			</tr>
+		</thead>
+		<tbody class="well well-large">
+			<tr ng-repeat="node in nodeList" ng-class="{hide:justSupernode==1&&node.superNodeID==null}">
+				<td ng-bind="$index+1"></td>
+				<td>
+					<span ng-bind="node.host"></span>
+				</td>
+				<td>
+					<a href="http://supernodes.nem.io/details/{{node.superNodeID}}" 
+						target="_blank" style="cursor:pointer;" ng-class="{hide:node.superNodeID==null}">
+						<img src='views/images/sn.png' width="18" height="18"/>
+						<span ng-bind-html="node.name | to_trusted" style="margin-left:6px;"></span>
+					</a>
+					<span ng-class="{hide:node.superNodeID!=null}">
+						<span ng-bind-html="node.name | to_trusted"></span>
+					</span>
+				</td>
+				<td ng-bind="node.height"></td>
+				<td ng-bind="node.version"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

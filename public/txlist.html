@@ -1,0 +1,64 @@
+<div id="content" class="container" style="padding-bottom:70px;">
+	
+	<table class="hover fontSize12">
+		<thead>
+			<tr>
+				<th>Block Height</th>
+				<th>Sender / Recipient</th>
+				<th>Type</th>
+				<th>Amount / Fee</th>
+				<th>Timestamp</th>
+				<th>Age</th>
+			</tr>
+		</thead>
+		<tbody class="well well-large">
+			<tr ng-repeat="tx in txList" style="cursor:pointer;" ng-click="showTx($index, $event)" ng-class="{success:selectedTXHash && selectedTXHash==tx.hash, fadeIn:fadeFlag}">
+				<td><a href="#s_block?height={{tx.height}}" target="_blank"><span class="noDetail" ng-bind="tx.height"></span></a></td>
+				<td>
+					<a href="#s_account?account={{tx.sender}}" target="_blank"><span class="noDetail" ng-bind="tx.sender"></span></a>&nbsp;<br/>
+					<a href="#s_account?account={{tx.recipient}}" target="_blank"><span class="noDetail" ng-bind="tx.recipient"></span></a>&nbsp;
+				</td>
+				<td ng-bind="tx.typeName"></td>
+				<td>
+					<span ng-bind="tx.amount"></span> / 
+					<span ng-bind="tx.fee"></span>
+				</td>
+				<td ng-bind="tx.timeStamp"></td>
+				<td ng-bind="tx.age"></td>
+			</tr>
+		</tbody>
+	</table>
+	<ul class="pagination" style="margin-top:-16px;">
+		<li class="pagination-previous" ng-class="{disabled:page<=1}" ng-click="previousPage();"><a href="javascript:void(0);">&#9668 previous <span class="show-for-sr">page</span></a></li>
+		<li class="pagination-next"><a href="javascript:void(0);" ng-click="nextPage();">next &#9658<span class="show-for-sr">page</span></a></li>
+	</ul>
+	<div class="modal fade" id="txDetail" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+	    	<div class="modal-content">
+	        	<div class="modal-header">
+	            	<button type="button" class="close-button" data-dismiss="modal" aria-hidden="true" data-close>&times;</button>
+	            	<h5 class="modal-title"><b>Transaction Detail</b></h5>
+		         </div>
+		         <div class="modal-body">
+		         	<div class=".clearfix"></div>
+		         	<table class="hover fontSize12">
+		         		<tr style="line-height:26px;">
+							<td style="width:140px;">
+								Hash&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</td>
+							<td style="width:720px;"">
+								<a href="#/s_tx?hash={{txHash}}" target="_blank">
+									<span ng-bind="txHash"></span>
+								</a>
+							</td>
+						</tr>
+		         		<tr ng-repeat="item in items" style="line-height:26px;">
+							<td style="width: 140px;"><span ng-bind="item.label"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+							<td ng-bind="item.content" style="width:720px; word-break: break-word;"></td>
+						</tr>
+					</table>
+		         </div>
+			</div>
+		</div>
+	</div>
+</div>

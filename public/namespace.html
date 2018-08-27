@@ -1,0 +1,78 @@
+<div id="content" class="container fontSize12" style="padding-top:10px;padding-bottom:70px;">
+	<h4>Namespace Detail</h4>
+	<div ng-if="!namespaceList" style="font-size: 16px;line-height:50px;" ng-bind="message"></div>
+	<div ng-if="namespaceList">
+		<table class="hover well well-large">
+			<tr>
+				<td width="220">Namespace (sub-namespaces)</td>
+				<td>
+			    	<select class="form-control" ng-model="select" ng-options="item.namespace for item in namespaceList" ng-change="changeSelectOption(select)" style="width: 400px;height: 32px;font-weight: bold;font-size:12px;"></select>
+				</td>
+			</tr>
+			<tr>
+				<td>Creator</td>
+				<td>
+					<a href="#/s_account?account={{select.creator}}" target="_blank">
+						<span ng-bind="select.creator"></span>
+					</a>
+				</td>
+			</tr>
+			<tr>
+				<td>CreateTime</td>
+				<td ng-bind="select.timeStamp"></td>
+			</tr>
+			<tr ng-class="{hide: select.namespace!=select.rootNamespace}">
+				<td>ExpiredTime</td>
+				<td ng-bind="select.expiredTime"></td>
+			</tr>
+			<tr>
+				<td>Height</td>
+				<td>
+					<a href="#/s_block?height={{select.height}}" target="_blank">
+						<span ng-bind="select.height"></span>
+					</a>
+				</td>
+			</tr>
+		</table>
+		<ul class="nav nav-tabs" role="tablist" id="tab" style="margin-top: 40px;" ng-class="{hide:!select}">
+			<li role="presentation" class="active">
+				<a role="tab" data-toggle="tab">
+					<span style="font-weight: bold;">
+						Mosaics
+					</span>
+				</a>
+			</li>
+		</ul>
+		<div class="tab-content" ng-class="{hide:!select}">
+			<div role="tabpanel" class="tab-pane active" id="mosaics">
+				<table class="hover">
+					<thead>
+						<tr>
+							<td>#</td>
+							<td>Mosaic</td>
+							<td>InitialSupply</td>
+							<td>Divisibility</td>
+							<td>TimeStamp</td>
+						</tr>
+					</thead>
+					<tbody class="well well-large">
+						<tr ng-if="mosaicList.length==0">
+							<td colspan="5">Nothing to show</td>
+						</tr>
+						<tr ng-repeat="m in mosaicList" ng-click="showMosaic($index, $event)">
+							<td ng-bind="$index+1"></td>
+							<td>
+								<a href="#mosaic?m={{m.mosaicName}}&ns={{m.namespace}}" target="_blank">
+									<span class="noDetail" ng-bind="m.mosaic"></span>
+								</a>
+							</td>
+							<td ng-bind="m.initialSupply"></td>
+							<td ng-bind="m.divisibility"></td>
+							<td ng-bind="m.timeStamp"></td>
+						</tr>
+					</tboby>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

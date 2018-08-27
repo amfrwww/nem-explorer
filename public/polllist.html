@@ -1,0 +1,28 @@
+<div id="content" class="container fontSize12" style="padding-bottom:70px;">
+  	<div class="clearfix"></div>
+	<table class="hover" id="pollTable">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Title</th>
+				<th>Type</th>
+				<th>Create Time</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+		<tbody class="well well-large">
+			<tr ng-repeat="poll in pollList" ng-click="showPoll($index)" ng-class="{success:selectedPollIndex && selectedPollIndex==$index}">
+				<td ng-bind="$index+1"></td>
+				<td>
+					<a href="#poll?id={{poll.id}}" target="_blank"><span ng-bind="poll.title"></span></a>
+				</td>
+				<td ng-bind="poll.typeName"></td>
+				<td ng-bind="poll.timeStamp"></td>
+				<td>
+					<span ng-class="{hide:poll.status==0}" style="color: green">VALID</span>
+					<span ng-class="{hide:poll.status==1}" style="color: red">EXPIRED</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

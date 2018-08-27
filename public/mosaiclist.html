@@ -1,0 +1,44 @@
+<div id="content" class="container fontSize12" style="padding-bottom:70px;">
+  	<div style="margin-bottom:20px;">
+		<span class="fontSize16 fontSizeBold">Mosaic List</span>
+		<button type="button" style="padding:5px;display:inline;float:right;margin-top:2px;background-color:#1A75B6;color:#FEFEFE;margin-left:4px;margin-right:2px;" ng-click="searchMosaic()" ng-disabled="searchingFlag">
+ 			<span class="fa fa-repeat"></span>
+ 		</button>
+		<input ng-model="searchInput" type="text" style="height:24px;font-size:12px;max-width:360px;display:inline;float:right;margin-right:2px;padding-left:6px;" placeholder="mosaicID (e.g. dim:coin)">
+		<img ng-if="searchingFlag" src="views/images/loading.gif" width="20" height="20" style="float:right;margin-right:10px;"/>
+	</div>
+	<div class="alert alert-warning" ng-if="warningFlag">
+	    <a href="javascript:void(0);" class="close" ng-click="closeWarning()">&times;</a>
+	    <span ng-bind="warningContent"></span>
+	</div>
+  	<div infinite-scroll="loadMore()" infinite-scroll-immediate-check="false" infinite-scroll-disabled="loadingFlag">
+		<table class="hover">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>MosaicID</th>
+					<th>Creator</th>
+					<th>Supply</th>
+					<th>Divisibility</th>
+					<th>CreateTime</th>
+				</tr>
+			</thead>
+			<tbody class="well well-large">
+				<tr ng-repeat="m in mosaicList">
+					<td ng-bind="$index+1" width="42"></td>
+					<td>
+						<a href="#/mosaic?m={{m.mosaicName}}&ns={{m.namespace}}" target="_blank">
+							<span ng-bind="m.namespace"></span>:<span ng-bind="m.mosaicName"></span>
+						</a>
+					</td>
+					<td><a href="#s_account?account={{m.creator}}" target="_blank"><span class="noDetail" ng-bind="m.creator"></span></a></td>
+					<td ng-bind="m.initialSupply"></td>
+					<td ng-bind="m.divisibility"></td>
+					<td ng-bind="m.timeStamp"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="text-center" ng-if="loadingFlag"><img src="views/images/loading.gif"/></div>
+	<div class="text-center" ng-if="endFlag">This is the end</div>
+</div>

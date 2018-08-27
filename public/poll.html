@@ -1,0 +1,73 @@
+<div id="content" class="container fontSize12" style="padding-top:10px;padding-bottom:70px;">
+	<h4 style="margin-bottom:20px;">Poll</h4>
+	<table class="hover">
+		<tr style="line-height:26px;">
+			<td width="180">Title</td>
+			<td ng-bind="poll.title"></td>
+		</tr>
+		<tr style="line-height:26px;">
+			<td width="180">Description</td>
+			<td ng-bind="poll.description"></td>
+		</tr>
+		<tr style="line-height:26px;">
+			<td width="180">Create time</td>
+			<td ng-bind="poll.timeStamp"></td>
+		</tr>
+		<tr style="line-height:26px;">
+			<td width="180">Expired time</td>
+			<td>
+				<span ng-bind="poll.expired"></span>
+				<span ng-class="{hide:poll.status!=0}" style="padding-left:10px; color:red"> ( EXPIRED ) </span>
+			</td>
+		</tr>
+		<tr style="line-height:26px;">
+			<td width="180">Multiple</td>
+			<td ng-bind="poll.multiple"></td>
+		</tr>
+		<tr style="line-height:26px;">
+			<td width="180">Type</td>
+			<td ng-bind="poll.typeName"></td>
+		</tr>
+		<tr style="line-height:26px;" ng-class="{hide:poll.type!=1}">
+			<td width="180">White list</td>
+			<td ng-bind-html="poll.whitelist | to_trusted"></td>
+		</tr>
+	</table>
+	<h4 style="margin-top: 40px;margin-bottom:20px;">Poll Votes</h4>
+	<div ng-class="{hide:showLoadingFlag==false}" style="margin-left:10px;">
+		<img src="views/images/loading.gif" />
+		<span style="margin-left:10px;">Loading result ...</span>
+	</div>
+	<div ng-repeat="item in results" style="margin-left:10px;">
+    <div style="margin-bottom:10px;">
+      
+      <span ng-bind="item.label"></span>
+      (
+      votes: <span ng-bind="item.votes"></span>
+      <span style="margin-left:30px;" ng-class="{hide:showScoreFlag==false}">score: <span ng-bind="item.score"></span>%</span>
+      )
+    </div>
+  <div class="progress">
+    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{item.percentage}}" aria-valuemin="0" aria-valuemax="100" style="width:{{item.percentage}}%;">
+      <span ng-bind="item.percentage"></span>%
+    </div>
+  </div>
+    </div>
+  	<ul class="nav nav-tabs" role="tablist" id="optionVotesTab" style="margin-top: 40px;">
+		<li role="presentation" ng-repeat="label in optionLabels" ng-class="{active:$index==0}">
+			<a href="#home{{$index}}" role="tab" data-toggle="tab"><span ng-bind="label" style="font-weight: bold;"></span></a>
+		</li>
+	</ul>
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane" ng-class="{active:$index==0}" id="home{{$index}}" ng-repeat="votes in optionVotes">
+			<table class="hover">
+				<tr ng-repeat="vote in votes">
+					<td ng-bind="$index+1"></td>
+					<td><a href="#s_account?account={{vote.addr}}" target="_blank"><span class="noDetail" ng-bind="vote.addr"></span></a></td>
+					<td ng-bind="vote.fmtPOI"></td>
+					<td ng-bind="vote.time"></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
