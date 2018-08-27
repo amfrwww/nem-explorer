@@ -2,7 +2,7 @@ angular.module("webapp").controller("TXController", ["$scope", "$timeout", "$int
 angular.module("webapp").controller("SearchTXController", ["$scope", "$location", "TXService", SearchTXController]);
 angular.module("webapp").controller("UnconfirmedTXController", ["$scope", "$timeout", "$interval", "$location", "TXService", UnconfirmedTXController]);
 angular.module("webapp").controller('graphController', ["$scope", "$location","TXService", graphController]);
-angular.module("webapp").controller("FeeCalculatorController", ["$scope", FeeCalculatorController]);
+angular.module("webapp").controller("FeeCalculatorController", ["$scope", "FooterService", FeeCalculatorController]);
 
 function TXController($scope, $timeout, $interval, $location, TXService){
 	let type = "";
