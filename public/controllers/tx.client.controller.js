@@ -327,7 +327,7 @@ $scope.calculateMessage = function(message) {
     	length = message.length;
     }
     else if ($scope.selectedValue == 976) {
-    	length = message.length + 48;
+    	length = message.length + 49;
     }
     
     $scope.message = message;
