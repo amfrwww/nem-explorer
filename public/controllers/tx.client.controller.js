@@ -265,7 +265,7 @@ function FeeCalculatorController($scope, FooterService){
     			$scope.fee = (0.000000).toFixed(6);
     			$scope.feeUSD = '$'+($scope.price * $scope.fee).toFixed(2);
     		}else {
-    			$scope.fee = ($scope.feeMessage * $scope.multiplier * ($scope.dur * $scope.selectedDuration)).toFixed(6);
+    			$scope.fee = (($scope.feeMessage * ($scope.dur * $scope.selectedDuration)) * $scope.multiplier).toFixed(6);
     			$scope.feeUSD = '$'+($scope.price * $scope.fee).toFixed(2);
     		}
   		} else {
@@ -274,12 +274,12 @@ function FeeCalculatorController($scope, FooterService){
     		$("#mosaic").hide();
     		$scope.mosaicAmount = "0";
     		if($scope.message.length == 0) {
-    			$scope.fee = (0.050000 * $scope.multiplier * ($scope.dur * $scope.selectedDuration)).toFixed(6);
+    			$scope.fee = ((0.050000 * ($scope.dur * $scope.selectedDuration)) * $scope.multiplier).toFixed(6);
     			$scope.feeUSD = '$'+($scope.price * $scope.fee).toFixed(2);
     		}
     		else {
     			let fees = $scope.feeMessage + 0.05;
-    			$scope.fee = (fees * $scope.multiplier * ($scope.dur * $scope.selectedDuration)).toFixed(6);
+    			$scope.fee = ((fees * ($scope.dur * $scope.selectedDuration)) * $scope.multiplier).toFixed(6);
     			$scope.feeUSD = '$'+($scope.price * $scope.fee).toFixed(2);
     		}
 			$scope.mosaicSupply = "0";
@@ -348,7 +348,7 @@ function FeeCalculatorController($scope, FooterService){
 			$scope.feeMessage = feeMessage;
 			let feeMosaic = $scope.calculateMosaics(mosaicAmount, mosaicSupply, mosaicDiv);
 			$scope.total = feeMessage + feeMosaic;
-			$scope.fee = ($scope.total * multiplier * (dur * $scope.selectedDuration)).toFixed(6);
+			$scope.fee = (($scope.total * (dur * $scope.selectedDuration)) * $scope.multiplier).toFixed(6);
 			$scope.feeUSD = '$'+($scope.price * $scope.fee).toFixed(2);
 			return;
 		}
@@ -357,7 +357,7 @@ function FeeCalculatorController($scope, FooterService){
 			$scope.feeMessage = feeMessage;
 			let feeAmount = $scope.calculateMinimum(amount);
 			$scope.total = feeMessage + feeAmount;
-			$scope.fee = ($scope.total * multiplier * (dur * $scope.selectedDuration)).toFixed(6);
+			$scope.fee = (($scope.total * (dur * $scope.selectedDuration)) * $scope.multiplier).toFixed(6);
 			$scope.feeUSD = '$'+($scope.price * $scope.fee).toFixed(2);
 			return;
 		}
