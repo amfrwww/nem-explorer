@@ -1320,6 +1320,17 @@ footer #engadget-footer-sitemap-container {
     content: 'XEM';
 }
 
+.input-containerUSD {
+    position: relative;
+}
+
+.input-containerUSD:after {
+    position: absolute;
+    right: 0;
+    top: 20%;
+    content: 'USD';
+}
+
 .wordCount {
   position: relative;
   right: 0;
