@@ -387,7 +387,7 @@ $scope.calculateMosaics = function(quantity, supply, divisibility) {
     let fee = 0;
     let supplyRelatedAdjustment = 0;
 
-    	if(quantity == 0 || supply == 0 || divisibility == 0){
+    	if(supply == 0 || divisibility == 0){
     		return 0.00;
     	}
 
