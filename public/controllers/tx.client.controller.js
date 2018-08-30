@@ -369,7 +369,7 @@ $scope.calculateMessage = function(message) {
     if (!message.length)
         return 0.00;
     if ($scope.selectedValue == 2048) {
-    	length = message.length/2;
+    	length = (message.length + 2)/2;
     }
     else if ($scope.selectedValue == 1024) {
     	length = message.length;
