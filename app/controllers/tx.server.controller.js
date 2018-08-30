@@ -249,7 +249,7 @@ module.exports = {
 			let skip = (req.body.page-1)*TXLISTSIZE;
 			let type = req.body.type;	
       let tenTime = timeUtil.getTimeBeforeTenDayInNem();
-      let nineTime = tenTime + 86400;
+      let nineTime = tenTime + 86399;
       let eightTime = nineTime + 86400;
       let sevenTime = eightTime + 86400;
       let sixTime = sevenTime + 86400;
@@ -264,70 +264,70 @@ module.exports = {
   count0910: {
     "$sum":{ "$cond": [{"$and":[
     {"$cond":[{"$gte":["$timeStamp",tenTime]},1,0]},
-    {"$cond":[{"$lt":["$timeStamp",nineTime]},1,0]}
+    {"$cond":[{"$lte":["$timeStamp",nineTime]},1,0]}
     ]},
     1,0]}
   },
   count0809: {
     "$sum":{ "$cond": [{$and:[
-    {"$cond":[{"$gte":["$timeStamp",nineTime]},1,0]},
-    {"$cond":[{"$lt":["$timeStamp",eightTime]},1,0]}
+    {"$cond":[{"$gt":["$timeStamp",nineTime]},1,0]},
+    {"$cond":[{"$lte":["$timeStamp",eightTime]},1,0]}
     ]},
     1,0]}
   },
    count0708: {
     "$sum":{ "$cond": [{"$and":[
-    {"$cond":[{"$gte":["$timeStamp",eightTime]},1,0]},
-    {"$cond":[{"$lt":["$timeStamp",sevenTime]},1,0]}
+    {"$cond":[{"$gt":["$timeStamp",eightTime]},1,0]},
+    {"$cond":[{"$lte":["$timeStamp",sevenTime]},1,0]}
     ]},
     1,0]}
   },
   count0607: {
     "$sum":{ "$cond": [{"$and":[
-    {"$cond":[{"$gte":["$timeStamp",sevenTime]},1,0]},
-    {"$cond":[{"$lt":["$timeStamp",sixTime]},1,0]}
+    {"$cond":[{"$gt":["$timeStamp",sevenTime]},1,0]},
+    {"$cond":[{"$lte":["$timeStamp",sixTime]},1,0]}
     ]},
     1,0]}
   },
   count0506: {
     "$sum":{ "$cond": [{"$and":[
-    {"$cond":[{"$gte":["$timeStamp",sixTime]},1,0]},
-    {"$cond":[{"$lt":["$timeStamp",fiveTime]},1,0]}
+    {"$cond":[{"$gt":["$timeStamp",sixTime]},1,0]},
+    {"$cond":[{"$lte":["$timeStamp",fiveTime]},1,0]}
     ]},
     1,0]}
   },
   count0405: {
     "$sum":{ "$cond": [{"$and":[
-    {"$cond":[{"$gte":["$timeStamp",fiveTime]},1,0]},
-    {"$cond":[{"$lt":["$timeStamp",fourTime]},1,0]}
+    {"$cond":[{"$gt":["$timeStamp",fiveTime]},1,0]},
+    {"$cond":[{"$lte":["$timeStamp",fourTime]},1,0]}
     ]},
     1,0]}
   },
   count0304: {
     "$sum":{ "$cond": [{"$and":[
-    {"$cond":[{"$gte":["$timeStamp",fourTime]},1,0]},
-    {"$cond":[{"$lt":["$timeStamp",threeTime]},1,0]}
+    {"$cond":[{"$gt":["$timeStamp",fourTime]},1,0]},
+    {"$cond":[{"$lte":["$timeStamp",threeTime]},1,0]}
     ]},
     1,0]}
   },
   count0203: {
     "$sum":{ "$cond": [{"$and":[
-    {"$cond":[{"$gte":["$timeStamp",threeTime]},1,0]},
-    {"$cond":[{"$lt":["$timeStamp",twoTime]},1,0]}
+    {"$cond":[{"$gt":["$timeStamp",threeTime]},1,0]},
+    {"$cond":[{"$lte":["$timeStamp",twoTime]},1,0]}
     ]},
     1,0]}
   },
   count0102: {
     "$sum":{ "$cond": [{"$and":[
-    {"$cond":[{"$gte":["$timeStamp",twoTime]},1,0]},
-    {"$cond":[{"$lt":["$timeStamp",oneTime]},1,0]}
+    {"$cond":[{"$gt":["$timeStamp",twoTime]},1,0]},
+    {"$cond":[{"$lte":["$timeStamp",oneTime]},1,0]}
     ]},
     1,0]}
   },
     count0001: {
     "$sum":{ "$cond": [{"$and":[
-    {"$cond":[{"$gte":["$timeStamp",oneTime]},1,0]},
-    {"$cond":[{"$lt":["$timeStamp",todayTime]},1,0]}
+    {"$cond":[{"$gt":["$timeStamp",oneTime]},1,0]},
+    {"$cond":[{"$lte":["$timeStamp",todayTime]},1,0]}
     ]},
     1,0]}
   }
