@@ -484,7 +484,7 @@ body {
 
 .close-button {
   float: right;
-  font-size: 21px;
+  font-size: 31px;
   font-weight: bold;
   line-height: 1;
   color: #000;
@@ -507,6 +507,33 @@ button.close-button {
   background: transparent;
   border: 0;
 }
+
+.close-button2 {
+  float: right;
+  font-size: 21px;
+  font-weight: bold;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  filter: alpha(opacity=20);
+  opacity: .2;
+}
+.close-button2:hover,
+.close-button2:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  filter: alpha(opacity=50);
+  opacity: .5;
+}
+button.close-button2 {
+  -webkit-appearance: none;
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+}
+
 .modal-open {
   overflow: hidden;
 }
@@ -1133,7 +1160,7 @@ fieldset[disabled] .btn-info.focus {
 }
 
 .circle-tile-number {
-    padding: 5px 0 65px;
+    padding: 5px 0 75px;
     font-size: 26px;
     font-weight: 700;
     line-height: 1;
