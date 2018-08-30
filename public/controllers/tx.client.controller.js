@@ -312,7 +312,7 @@ function FeeCalculatorController($scope, FooterService){
 		let mosaicSupplyTxt = $scope.mosaicSupply.replace(/\s+/, "").replace(/,/g, "");
 		let mosaicDivTxt = $scope.mosaicDiv.replace(/\s+/, "").replace(/,/g, "");
 		let amountTxt = $scope.amount.replace(/\s+/, "").replace(/,/g, "");
-		let messageTxt = $scope.message.replace(/\s+/, "").replace(/,/g, "");
+		let messageTxt = $scope.message;
 		let multiplierTxt = $scope.multiplier.replace(/\s+/, "").replace(/,/g, "");
 		let durTxt = $scope.dur.replace(/\s+/, "").replace(/,/g, "");
 		let amount = new Number(amountTxt);
@@ -424,6 +424,7 @@ $scope.calculateXemEquivalent = function(quantity, supply, divisibility) {
 	$scope.handle();
 
 }
+
 
 function SearchTXController($scope, $location, TXService){
 	var absUrl = $location.absUrl();
