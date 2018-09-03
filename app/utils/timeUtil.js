@@ -10,9 +10,18 @@ let getTimeBeforeOneDayInNem = () => {
 	return Math.round((nowTime - NEM_EPOCH)/1000) - 24*60*60;
 }
 
+let getTimeBeforeOneFullDayInNem = () => {
+	let nowDay = new Date(new Date().setHours(23,59,59,59));
+	nowDay.setDate(nowDay.getDate() - 1);
+	let nowTime = nowDay.getTime();
+	return Math.round((nowTime - NEM_EPOCH)/1000);
+}
+
 let getTimeBeforeTenDayInNem = () => {
-	let nowTime = new Date(new Date().setHours(0,0,0,0)).getTime();
-	return Math.round((nowTime - NEM_EPOCH)/1000) - 11*24*60*60;
+	let nowDay = new Date(new Date().setHours(0,0,0,0));
+	nowDay.setDate(nowDay.getDate() - 10);
+	let nowTime = nowDay.getTime();
+	return Math.round((nowTime - NEM_EPOCH)/1000);
 }
 
 let getTimeBeforeOneMonthInNem = () => {
@@ -37,6 +46,7 @@ let getYearAddOneTimeInNem = (timeStamp) => {
 module.exports = {
 	getTimeInNem,
 	getTimeBeforeOneDayInNem,
+	getTimeBeforeOneFullDayInNem,
 	getTimeBeforeTenDayInNem,
 	getTimeBeforeOneMonthInNem,
 	getTimeInReal,
