@@ -258,7 +258,7 @@ module.exports = {
       let threeTime = fourTime + 86400;
       let twoTime = threeTime + 86400;
       let oneTime = twoTime + 86400;
-      let todayTime = oneTime + 86400;
+      let todayTime = timeUtil.getTimeBeforeOneFullDayInNem();
       Transaction.aggregate([{"$match":{timeStamp : {"$gte": tenTime}}},{"$group":{
   _id: "$__v",
   count0910: {
