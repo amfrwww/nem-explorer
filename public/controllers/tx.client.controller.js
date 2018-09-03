@@ -137,10 +137,10 @@ function graphController($scope, $location, TXService) {
 
     TXService.reportTx({ page: $scope.page, type: type }, function(r_txList) {
       $scope.gxList = r_txList;
-      var startDate = new Date(); //YYYY-MM-DD
+      var startDate = new Date(new Date().setHours(0,0,0,0)); //YYYY-MM-DD
       startDate.setDate(startDate.getDate() - 10);
-      var endDate = new Date(); //YYYY-MM-DD
-      endDate.setDate(endDate.getDate());
+      var endDate = new Date(new Date().setHours(0,0,0,0)); //YYYY-MM-DD
+      endDate.setDate(endDate.getDate() - 1);
 
       var getDateArray = function(start, end) {
         var arr = new Array();
@@ -159,16 +159,16 @@ function graphController($scope, $location, TXService) {
         type: "line",
         data: {
           labels: [
-            dateArr[0].toISOString().substring(2, 10),
-            dateArr[1].toISOString().substring(2, 10),
-            dateArr[2].toISOString().substring(2, 10),
-            dateArr[3].toISOString().substring(2, 10),
-            dateArr[4].toISOString().substring(2, 10),
-            dateArr[5].toISOString().substring(2, 10),
-            dateArr[6].toISOString().substring(2, 10),
-            dateArr[7].toISOString().substring(2, 10),
-            dateArr[8].toISOString().substring(2, 10),
-            dateArr[9].toISOString().substring(2, 10)
+            dateArr[0].toLocaleDateString(),
+            dateArr[1].toLocaleDateString(),
+            dateArr[2].toLocaleDateString(),
+            dateArr[3].toLocaleDateString(),
+            dateArr[4].toLocaleDateString(),
+            dateArr[5].toLocaleDateString(),
+            dateArr[6].toLocaleDateString(),
+            dateArr[7].toLocaleDateString(),
+            dateArr[8].toLocaleDateString(),
+            dateArr[9].toLocaleDateString()
           ],
           datasets: [
             {
